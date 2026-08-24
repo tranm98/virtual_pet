@@ -5,10 +5,27 @@ pygame.init()
 window = pygame.display.set_mode((300, 300))
 clock = pygame.time.Clock()
 
-rect = pygame.Rect(0, 0, 20, 20)
-rect.center = window.get_rect().center
+class Player():
+    def __init__(self):
+        self.rect = pygame.Rect(0, 0, 20, 20)
+        self.rect.center = window.get_rect().center
+        self.current_energy = 75
+        self.maximum_energy = 100
+        self.energy_bar_length = 100
+        self.energy_ratio = self.maximum / self.energy_bar_length
+    
+    def update(self):
+        pass
+    
+player = Player()
 #contributes to keeping the character from being too fast
 vel = 2
+
+def get_energy(self, amount):
+    if self.
+
+time = pygame.time.get_ticks()
+print(time)
 
 
 bed = pygame.image.load("bed.png")
@@ -27,22 +44,22 @@ while run:
             print(pygame.key.name(event.key))
     keys = pygame.key.get_pressed()
     #user movement
-    rect.x += (keys[pygame.K_RIGHT] - keys[pygame.K_LEFT]) * vel
-    rect.y += (keys[pygame.K_DOWN] - keys[pygame.K_UP]) * vel
+    player.rect.x += (keys[pygame.K_RIGHT] - keys[pygame.K_LEFT]) * vel
+    player.rect.y += (keys[pygame.K_DOWN] - keys[pygame.K_UP]) * vel
     #user starts at center
-    rect.centerx = rect.centerx % window.get_width()
-    rect.centery = rect.centery % window.get_height()
+    player.rect.centerx = player.rect.centerx % window.get_width()
+    player.rect.centery = player.rect.centery % window.get_height()
     
     window.fill(0)
     #this is the bed
     window.blit(bed, bed_rect)
     
-    collide = pygame.Rect.colliderect(rect, bed_rect)
+    collide = player.rect.colliderect(bed_rect)
     if collide:
         print("hey, you've hit me!")
     
     #the screen
-    pygame.draw.rect(window, (255, 0, 0), rect)
+    pygame.draw.rect(window, (255, 0, 0), player)
     
     pygame.display.flip()
     #contributes to keeping the character from being too fast
