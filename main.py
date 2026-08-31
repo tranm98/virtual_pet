@@ -6,6 +6,28 @@ pygame.init()
 window = pygame.display.set_mode((300, 300))
 clock = pygame.time.Clock()
 
+class Timer():
+    def __init__(self, duration):
+        self.duration = duration
+        self.start_time = 0
+        self.active = False
+        
+    def activate(self):
+        self.active = True
+        self.start_time = pygame.time.get_ticks()
+        
+    def deactivate(self):
+        self.active = False
+        self.start_time = 0
+        
+    def update(self):
+        if self.active:
+            current_time = pygame.time.get_ticks()
+            if current_time - self.start_time >= self.duration:
+                self.deactivate()
+        
+
+
 class Player():
     def __init__(self):
         self.rect = pygame.Rect(0, 0, 20, 20)
@@ -44,6 +66,8 @@ bed = pygame.transform.scale(bed,(80,50))
 bed_rect = bed.get_rect()
 bed_rect.topleft = (50,50)
 
+simple_timer = Timer(1000)
+simple_timer.activate()
 
 run = True
 while run:
@@ -67,10 +91,12 @@ while run:
     #this is the bed
     window.blit(bed, bed_rect)
     
+    
     collide = player.rect.colliderect(bed_rect)
     if collide and keys[pygame.K_SPACE]:
-            player.get_sleep(10)
+            simple_timer.activate()
             print("mimimimimi, i'm sleeping")
+    
     
     #the screen
     pygame.draw.rect(window, (255, 0, 0), player.rect)
@@ -78,7 +104,7 @@ while run:
     pygame.display.flip()
     #contributes to keeping the character from being too fast
     clock.tick(60)
-    
+
 pygame.quit()
 exit()  
             
